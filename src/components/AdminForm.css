@@ -1,0 +1,27 @@
+.css-1hbz0lg[aria-invalid="true"],
+.css-1hbz0lg[data-invalid] {
+  border-bottom: none;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px #e53e3e;
+}
+
+.css-1hbz0lg[aria-invalid="true"],
+.css-1hbz0lg[data-invalid]:hover {
+  border: none;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px #e53e3e;
+}
+
+.css-1hbz0lg[aria-invalid="true"],
+.css-1hbz0lg[data-invalid]:focus {
+  border: none;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px #e53e3e;
+}
+
+.css-tulq1k[aria-invalid="true"],
+.css-tulq1k[data-invalid] {
+  border-bottom: none;
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px #e53e3e;
+}
