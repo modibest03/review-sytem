@@ -4,7 +4,10 @@ import {
   Flex,
   Textarea,
   createStandaloneToast,
+  Icon,
+  useDisclosure,
 } from "@chakra-ui/react";
+import { Modal, ModalOverlay, ModalContent, ModalBody } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import LecturerHead from "../components/LecturerHead";
 import StudentReview from "../components/StudentReview";
@@ -15,6 +18,7 @@ import { useQuery } from "react-query";
 import firebase from "firebase";
 import { useQueryClient } from "react-query";
 import Loader from "../components/Loader";
+import { AiTwotoneMessage } from "react-icons/ai";
 
 const Lecturer = () => {
   const [star, setStar] = useState(0);
@@ -26,6 +30,7 @@ const Lecturer = () => {
   const toast = createStandaloneToast();
   const queryClient = useQueryClient();
   const auth = queryClient.getQueryData("authenticate");
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const fetchLecturer = async (id) => {
     try {
@@ -141,7 +146,75 @@ const Lecturer = () => {
             name={lecturerData.name}
             star={lecturerData.star}
           />
-          <Flex p="10rem 18rem 0 18rem" height="70%">
+          <Box
+            position="fixed"
+            bottom={["5rem"]}
+            left={["30rem", "30rem", "85rem", "60rem"]}
+            backgroundColor="tertiary"
+            p="1rem"
+            borderRadius="100rem"
+            onClick={onOpen}
+            display={["bloc", "block", "block", "none"]}
+          >
+            <Icon as={AiTwotoneMessage} color="secondary" boxSize={[50, 50]} />
+          </Box>
+          <Modal onClose={onClose} size="6xl" isOpen={isOpen}>
+            <ModalOverlay />
+            <ModalContent
+              top={["27rem", "18.5rem"]}
+              borderTopLeftRadius="2rem"
+              borderTopRightRadius="2rem"
+            >
+              <ModalBody>
+                <Flex
+                  flexDir="column"
+                  ml={["none", "3rem"]}
+                  backgroundColor="secondary"
+                  p="0 2rem 2rem 2rem"
+                >
+                  <Box alignSelf="center">
+                    <ReactStars
+                      onChange={ratingChanged}
+                      count={5}
+                      size={44}
+                      value={star}
+                      edit={true}
+                    />
+                  </Box>
+                  <Box flexGrow="1">
+                    <Box height="25rem">
+                      <Textarea
+                        placeholder="Write Your Review"
+                        flexGrow="1"
+                        isRequired
+                        size="lg"
+                        fontSize="2rem"
+                        h="100%"
+                        onChange={(e) => setReview(e.target.value)}
+                        value={review}
+                      />
+                    </Box>
+                    <Button
+                      mt="3rem"
+                      background="tertiary"
+                      p="4rem"
+                      fontSize="3rem"
+                      w="100%"
+                      color="secondary"
+                      isDisabled={loading}
+                      onClick={handleSubmit}
+                    >
+                      SEND
+                    </Button>
+                  </Box>
+                </Flex>
+              </ModalBody>
+            </ModalContent>
+          </Modal>
+          <Flex
+            p={["4rem 3rem", "4rem 3rem", "5rem 3rem", "10rem 14rem 0 14rem"]}
+            height={["100%", "100%"]}
+          >
             <div className="lecturer">
               {reviews.map(({ id, lecturer }) => (
                 <StudentReview
@@ -154,11 +227,11 @@ const Lecturer = () => {
             </div>
             <Flex
               flexDir="column"
-              ml="3rem"
+              ml={["none", "3rem"]}
               backgroundColor="secondary"
               flexBasis="30%"
               p="2rem"
-              display={auth ? "flex" : "none"}
+              display={["none", "none", "none", auth ? "flex" : "none"]}
             >
               <Box alignSelf="center">
                 <ReactStars

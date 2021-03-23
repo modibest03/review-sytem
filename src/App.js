@@ -43,9 +43,6 @@ function App() {
           queryClient.setQueryData("authenticate", doc.data());
           if (authenticate.uid === doc.data().uid) {
             setCurrentUser(doc.data());
-          } else {
-            setCurrentUser(null);
-            queryClient.setQueryData("authenticate", null);
           }
         });
       };

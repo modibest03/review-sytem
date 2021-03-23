@@ -36,6 +36,7 @@ const SignIn = ({ setState }) => {
       backgroundColor="secondary"
       borderRadius="1rem"
       opacity="85%"
+      boxShadow={["2xl", "none"]}
     >
       <Center mt="5rem">
         <Icon as={BiUserCircle} w="15rem" h="auto" color="tertiary" />

@@ -2,6 +2,7 @@ import { Box, Flex } from "@chakra-ui/react";
 import LecturersCard from "../components/LecturersCard";
 import { db } from "../firebase/firebase";
 import { useQuery } from "react-query";
+import Loader from "../components/Loader";
 
 const Lecturers = () => {
   const fetchLecturers = async () => {
@@ -25,7 +26,7 @@ const Lecturers = () => {
   );
 
   if (isLoading || isIdle) {
-    return <span>Loading...</span>;
+    return <Loader />;
   }
 
   if (isError) {
@@ -34,7 +35,7 @@ const Lecturers = () => {
 
   return (
     <Box>
-      <Flex p="2rem" flexWrap="wrap">
+      <Flex p="2rem" flexWrap="wrap" justifyContent="space-between">
         {data.map(({ id, lecturer }) => (
           <LecturersCard
             key={id}

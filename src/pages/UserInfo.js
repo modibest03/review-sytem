@@ -9,7 +9,12 @@ const UserInfo = () => {
 
   return (
     <Flex
-      backgroundImage={`linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),url(${images})`}
+      backgroundImage={[
+        "none",
+        "none",
+        "none",
+        `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),url(${images})`,
+      ]}
       height="100vh"
       backgroundSize="cover"
       backgroundPosition="center"

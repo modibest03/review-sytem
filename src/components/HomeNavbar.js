@@ -1,5 +1,5 @@
-import { Box, Flex, createStandaloneToast } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Box, Flex, createStandaloneToast, Link } from "@chakra-ui/react";
+import { Link as ReachLink } from "react-router-dom";
 import { auth } from "../firebase/firebase";
 
 const HomeNavbar = ({ currentUser }) => {
@@ -34,29 +34,39 @@ const HomeNavbar = ({ currentUser }) => {
   return (
     <Flex
       as="nav"
-      height="15vh"
+      height={["10vh", "15vh"]}
       backgroundColor="secondary"
-      p="4rem 15.7rem"
+      p={["2rem 5rem", "2rem 5rem", "2rem", "4rem 15.7rem"]}
       align="flex-end"
       boxShadow="md"
       alignItems="center"
       justifyContent="space-between"
+      display={["none", "none", "none", "flex"]}
     >
       <Box>
         <Link
-          style={{ fontSize: "3rem", fontWeight: "500", color: "#359EF7" }}
+          as={ReachLink}
           to="/"
-          fontSize="3rem"
           fontWeight="500"
           color="tertiary"
+          fontSize="3rem"
+          display={["none", "none", "flex"]}
         >
           Home
         </Link>
       </Box>
-      <Flex width="40%" color="tertiary" justifyContent="flex-end">
+      <Flex
+        display={["flex"]}
+        width="40%"
+        color="tertiary"
+        justifyContent="flex-end"
+      >
         <Link
-          style={{ fontSize: "2rem", color: "#359EF7", marginRight: "4rem" }}
+          fontSize="2rem"
+          color="#359EF7"
+          marginRight="4rem"
           to="/lecturers"
+          as={ReachLink}
         >
           Lecturers
         </Link>
@@ -72,8 +82,11 @@ const HomeNavbar = ({ currentUser }) => {
           </Box>
         ) : (
           <Link
-            style={{ fontSize: "2rem", color: "#359EF7", marginRight: "4rem" }}
             to="/signin"
+            as={ReachLink}
+            fontSize="2rem"
+            color="#359EF7"
+            marginRight="4rem"
           >
             Signin
           </Link>
@@ -81,8 +94,11 @@ const HomeNavbar = ({ currentUser }) => {
 
         {currentUser?.isAdmin && (
           <Link
-            style={{ fontSize: "2rem", color: "#359EF7", marginRight: "4rem" }}
             to="/admin"
+            fontSize="2rem"
+            color="#359EF7"
+            marginRight="4rem"
+            as={ReachLink}
           >
             Admin
           </Link>
@@ -90,8 +106,11 @@ const HomeNavbar = ({ currentUser }) => {
 
         {currentUser?.isAdmin && (
           <Link
-            style={{ fontSize: "2rem", color: "#359EF7" }}
             to="/createLecturer"
+            fontSize="2rem"
+            color="#359EF7"
+            marginRight="4rem"
+            as={ReachLink}
           >
             CreateLecturer
           </Link>

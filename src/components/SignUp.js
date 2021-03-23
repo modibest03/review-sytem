@@ -49,6 +49,7 @@ const SignUp = ({ setState }) => {
       backgroundColor="secondary"
       borderRadius="1rem"
       opacity="85%"
+      boxShadow={["lg", "none"]}
     >
       <Center>
         <Icon as={BiUserCircle} w="15rem" h="auto" color="tertiary" />

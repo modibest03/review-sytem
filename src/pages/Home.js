@@ -75,9 +75,15 @@ const Home = () => {
         ) : (
           <Box
             as="section"
-            p="13.4rem 6.9rem"
+            p={[
+              "0 2rem 10rem 2rem",
+              "0 2rem 10rem 2rem",
+              "0 2rem 10rem 2rem",
+              "13.4rem 6.9rem",
+            ]}
             display="flex"
             justifyContent="space-between"
+            flexWrap="wrap"
           >
             <HomeCard
               review={userQueries[0]?.data[0]?.lecturer?.review}
@@ -95,7 +101,11 @@ const Home = () => {
         )}
       </Box>
 
-      <Box as="footer" backgroundColor="tertiary" p="5rem 19rem 4rem">
+      <Box
+        as="footer"
+        backgroundColor="tertiary"
+        p={["2rem", "2rem", "2rem", "5rem 19rem 4rem"]}
+      >
         <Footer />
       </Box>
     </Box>

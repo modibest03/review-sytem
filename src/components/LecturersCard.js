@@ -6,12 +6,13 @@ import ReactStars from "react-rating-stars-component";
 const LecturersCard = ({ id, department, imageUrl, name, star }) => {
   return (
     <LinkBox
-      width="32%"
+      width="36.2rem"
+      flexBasis={["100%", "100%", "100%", "30%"]}
       backgroundColor="secondary"
       p="2rem"
       boxShadow="lg"
       borderRadius="1rem"
-      mt="1rem"
+      mt="3rem"
       position="relative"
       mr="1rem"
       as={RouterLink}
@@ -21,16 +22,25 @@ const LecturersCard = ({ id, department, imageUrl, name, star }) => {
         <Avatar
           name="Dan Abrahmov"
           src={imageUrl}
-          size="lg"
+          width={["5rem", "5rem", "10rem", "5rem"]}
+          height={["5rem", "5rem", "10rem", "5rem"]}
           mr="2rem"
           border="2px solid #359EF7"
         />
         <Box>
-          <ReactStars count={5} size={25} value={star} edit={false} />
-          <Text color="tertiary" fontSize="1.4rem" fontWeight="500">
+          <ReactStars count={5} size={35} value={star} edit={false} />
+          <Text
+            color="tertiary"
+            fontSize={["1.4rem", "1.4rem", "3rem", "1.4rem"]}
+            fontWeight="500"
+          >
             {name}
           </Text>
-          <Text color="tertiary" fontSize="1.2rem" fontWeight="500">
+          <Text
+            color="tertiary"
+            fontSize={["1.4rem", "1.4rem", "2rem", "1.4rem"]}
+            fontWeight="500"
+          >
             {department}
           </Text>
         </Box>
