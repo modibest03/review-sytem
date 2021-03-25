@@ -4,6 +4,7 @@ import { db } from "../firebase/firebase";
 import { useQuery } from "react-query";
 import Loader from "../components/Loader";
 import Error from "../components/Error";
+import { useEffect } from "react";
 
 const Lecturers = () => {
   const fetchLecturers = async () => {
@@ -20,6 +21,10 @@ const Lecturers = () => {
       console.log(err);
     }
   };
+
+  // useEffect(() => {
+
+  // // })
 
   const { isLoading, isError, isIdle, data, error } = useQuery(
     "lecturers",

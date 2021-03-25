@@ -34,6 +34,10 @@ const AdminForm = () => {
       .put(value.imageUrl[0]);
     uploadTask.on(
       "state_changed",
+      (snapshot) => {
+        let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+      },
       (error) => {
         console.log(error);
       },
@@ -51,8 +55,8 @@ const AdminForm = () => {
               imageUrl: url,
             });
             setLoading(false);
+            history.push("/lecturers");
           });
-        history.push("/lecturers");
       }
     );
   }

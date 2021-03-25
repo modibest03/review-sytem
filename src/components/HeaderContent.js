@@ -60,7 +60,7 @@ const HeaderContent = () => {
           src={reviewSvg}
           alt="review system illustrator"
           objectFit="cover"
-          marginLeft={["0", "0", "0", "8rem", "19.5rem"]}
+          marginLeft={["0", "0", "0", "8rem", "13.5rem"]}
           boxSize="95%"
         />
       </Box>
