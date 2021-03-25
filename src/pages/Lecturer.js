@@ -19,6 +19,7 @@ import firebase from "firebase";
 import { useQueryClient } from "react-query";
 import Loader from "../components/Loader";
 import { AiTwotoneMessage } from "react-icons/ai";
+import Error from "../components/Error";
 
 const Lecturer = () => {
   const [star, setStar] = useState(0);
@@ -26,6 +27,9 @@ const Lecturer = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [reviewIsLoading, setReviewIsLoading] = useState(false);
+  const [reveiwsId, setReveiwsId] = useState([]);
+  const [averageReview, setAverageReview] = useState(null);
+  const [reviewStars, setReviewStars] = useState([]);
   let { lecturerid } = useParams();
   const toast = createStandaloneToast();
   const queryClient = useQueryClient();
@@ -39,7 +43,7 @@ const Lecturer = () => {
       const res = snapshot.data();
       return res;
     } catch (err) {
-      console.log(err);
+      return err;
     }
   };
 
@@ -69,10 +73,12 @@ const Lecturer = () => {
       console.log(error);
     }
   }, [lecturerid]);
+  console.log(reviews);
 
   const {
     isLoading: lecturerIsLoading,
     isError: lecturerIsError,
+    error: lecturerError,
     data: lecturerData,
   } = useQuery(["lecturerReview", lecturerid], () => fetchLecturer(lecturerid));
 
@@ -103,6 +109,7 @@ const Lecturer = () => {
           timeStamp: firebase.firestore.FieldValue.serverTimestamp(),
           star: star,
           review: review,
+          authUid: auth?.uid,
         })
         .then((data) => {
           if (data.error) {
@@ -134,18 +141,46 @@ const Lecturer = () => {
     }
   };
 
+  useEffect(() => {
+    if (reviews) {
+      setReveiwsId(reviews.map((rev) => rev.lecturer.authUid));
+      setReviewStars(reviews.map((rev) => rev.lecturer.star));
+    }
+  }, [reviews]);
+
+  useEffect(() => {
+    if (reviewStars) {
+      let total_users_rated = reviews.length;
+      let sum_of_max_rating_of_user_count = total_users_rated * 5;
+      let sum_of_rating = reviewStars.reduce((a, b) => a + b, 0);
+      setAverageReview(
+        Math.round((sum_of_rating * 5) / sum_of_max_rating_of_user_count)
+      );
+    }
+  }, [reviewStars, reviews]);
+
+  console.log(reviews[0]?.lecturer.star);
+  console.log(reviews.length);
+  console.log(reviews.length * 5);
+  console.log(reviewStars.reduce((a, b) => a + b, 0));
+  console.log(averageReview);
+
   return (
     <Box background="grey.20" h="100vh" overflow="hidden">
       {lecturerIsLoading || reviewIsLoading ? (
         <Loader />
+      ) : lecturerIsError ? (
+        <Error>{lecturerError.message}</Error>
       ) : (
         <>
-          <LecturerHead
-            department={lecturerData.department}
-            imageUrl={lecturerData.imageUrl}
-            name={lecturerData.name}
-            star={lecturerData.star}
-          />
+          {averageReview && (
+            <LecturerHead
+              department={lecturerData.department}
+              imageUrl={lecturerData.imageUrl}
+              name={lecturerData.name}
+              star={averageReview}
+            />
+          )}
           <Box
             position="fixed"
             bottom={["5rem"]}
@@ -154,7 +189,24 @@ const Lecturer = () => {
             p="1rem"
             borderRadius="100rem"
             onClick={onOpen}
-            display={["bloc", "block", "block", "none"]}
+            display={[
+              auth && reveiwsId.includes(auth?.uid)
+                ? "none"
+                : auth
+                ? "block"
+                : "none",
+              auth && reveiwsId.includes(auth?.uid)
+                ? "none"
+                : auth
+                ? "bloc"
+                : "none",
+              auth && reveiwsId.includes(auth?.uid)
+                ? "none"
+                : auth
+                ? "bloc"
+                : "none",
+              "none",
+            ]}
           >
             <Icon as={AiTwotoneMessage} color="secondary" boxSize={[50, 50]} />
           </Box>
@@ -231,7 +283,16 @@ const Lecturer = () => {
               backgroundColor="secondary"
               flexBasis="30%"
               p="2rem"
-              display={["none", "none", "none", auth ? "flex" : "none"]}
+              display={[
+                "none",
+                "none",
+                "none",
+                auth && reveiwsId.includes(auth?.uid)
+                  ? "none"
+                  : auth
+                  ? "flex"
+                  : "none",
+              ]}
             >
               <Box alignSelf="center">
                 <ReactStars

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { FormErrorMessage, FormControl, Input, Button } from "@chakra-ui/react";
 import { db, auth } from "../firebase/firebase";
@@ -7,6 +8,7 @@ import "./AdminForm.css";
 
 const AdminUser = ({ onClose }) => {
   const { handleSubmit, errors, register, formState } = useForm();
+  const [loading, setLoading] = useState(false);
 
   function validateName(value) {
     let error;
@@ -17,6 +19,7 @@ const AdminUser = ({ onClose }) => {
   }
 
   function onSubmit(data) {
+    setLoading(true);
     auth
       .createUserWithEmailAndPassword(data.email, data.password)
       .then((userCredential) => {
@@ -32,6 +35,7 @@ const AdminUser = ({ onClose }) => {
           isAdmin: true,
           uid: userCredential.user.uid,
         });
+        setLoading(false);
       })
       .catch((error) => {
         const errorCode = error.code;
@@ -119,8 +123,9 @@ const AdminUser = ({ onClose }) => {
         width="100%"
         isLoading={formState.isSubmitting}
         type="submit"
+        disabled={loading}
       >
-        Submit
+        {loading ? "Submitting" : "Submit"}
       </Button>
     </form>
   );

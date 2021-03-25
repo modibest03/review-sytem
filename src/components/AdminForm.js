@@ -28,7 +28,6 @@ const AdminForm = () => {
 
   function onSubmit(value) {
     setLoading(true);
-    console.log(value.imageUrl[0].name);
     const storageRef = storage.ref();
     const uploadTask = storageRef
       .child(`images/${value.imageUrl[0].name}`)
@@ -51,9 +50,9 @@ const AdminForm = () => {
               department: value.department,
               imageUrl: url,
             });
+            setLoading(false);
           });
         history.push("/lecturers");
-        setLoading(false);
       }
     );
   }
@@ -138,9 +137,10 @@ const AdminForm = () => {
             width="100%"
             isLoading={formState.isSubmitting}
             isDisabled={loading}
+            disabled={loading}
             type="submit"
           >
-            Submit
+            {loading ? "Submitting" : "Submit"}
           </Button>
         </form>
       </Box>

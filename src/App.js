@@ -11,7 +11,6 @@ import AdminForm from "./components/AdminForm";
 import Lecturer from "./pages/Lecturer";
 import HomeNavbar from "./components/HomeNavbar";
 import { useQueryClient } from "react-query";
-import Loader from "./components/Loader";
 
 function App() {
   const [authenticate, setAuthenticate] = useState(null);
@@ -40,8 +39,8 @@ function App() {
         const citiesRef = db.collection("users");
         const snapshot = await citiesRef.get();
         snapshot.forEach((doc) => {
-          queryClient.setQueryData("authenticate", doc.data());
           if (authenticate.uid === doc.data().uid) {
+            queryClient.setQueryData("authenticate", doc.data());
             setCurrentUser(doc.data());
           }
         });
@@ -53,11 +52,11 @@ function App() {
   return (
     <div className="App">
       <Route exact path="/">
-        <HomeNavbar currentUser={currentUser} />
+        <HomeNavbar currentUser={currentUser} authenticate={authenticate} />
         <Home />
       </Route>
       <Route path="/lecturers">
-        <HomeNavbar currentUser={currentUser} />
+        <HomeNavbar currentUser={currentUser} authenticate={authenticate} />
         <Lecturers />
       </Route>
       <Route path="/signin">
@@ -67,14 +66,11 @@ function App() {
         {currentUser?.isAdmin ? <Admin /> : <Redirect to={"/"} />}
       </Route>
       <Route path="/createLecturer">
-        <HomeNavbar currentUser={currentUser} />
+        <HomeNavbar currentUser={currentUser} authenticate={authenticate} />
         {currentUser?.isAdmin ? <AdminForm /> : <Redirect to={"/"} />}
       </Route>
       <Route path="/lecturer/:lecturerid/reviews">
         <Lecturer />
-      </Route>
-      <Route path="/loader">
-        <Loader />
       </Route>
     </div>
   );

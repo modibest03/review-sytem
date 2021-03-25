@@ -14,6 +14,7 @@ import { useQuery } from "react-query";
 import AdminUser from "../components/AdminUser";
 import React from "react";
 import { Link } from "react-router-dom";
+import Error from "../components/Error";
 
 const Admin = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -151,7 +152,7 @@ const Admin = () => {
             <TabPanel p="2rem">
               <Flex flexWrap="wrap">
                 {lecturersLoading && <p>loading......</p>}
-                {lecturersisError && <p>{lecturesError}</p>}
+                {lecturersisError && <Error>{lecturesError.message}</Error>}
                 {lecturersdata?.map(({ id, lecturer }) => (
                   // console.log(lecturer)
                   <LecturerCard
@@ -169,7 +170,7 @@ const Admin = () => {
             <TabPanel>
               <Flex flexWrap="wrap">
                 {usersLoading && <p>loading......</p>}
-                {usersisError && <p>{usersError}</p>}
+                {usersisError && <Error>{usersError.message}</Error>}
                 {usersdata?.map(({ id, user }) => (
                   // console.log(user)
                   <UserCard

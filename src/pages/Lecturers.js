@@ -3,6 +3,7 @@ import LecturersCard from "../components/LecturersCard";
 import { db } from "../firebase/firebase";
 import { useQuery } from "react-query";
 import Loader from "../components/Loader";
+import Error from "../components/Error";
 
 const Lecturers = () => {
   const fetchLecturers = async () => {
@@ -30,7 +31,7 @@ const Lecturers = () => {
   }
 
   if (isError) {
-    return <span>Error: {error.message}</span>;
+    return <Error>{error.message}</Error>;
   }
 
   return (

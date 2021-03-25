@@ -11,16 +11,20 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { auth } from "../firebase/firebase";
+import { useState } from "react";
 
 const SignIn = ({ setState }) => {
   let history = useHistory();
   const { handleSubmit, errors, register, formState } = useForm();
+  const [loading, setLoading] = useState(false);
 
   const onSubmit = (data) => {
+    setLoading(true);
     auth
       .signInWithEmailAndPassword(data.email, data.password)
       .then((userCredential) => {
         history.push("/");
+        setLoading(false);
       })
       .catch((error) => {
         var errorCode = error.code;
@@ -69,6 +73,7 @@ const SignIn = ({ setState }) => {
                 name="password"
                 ref={register({ required: true })}
                 mt="1rem"
+                type="password"
                 border="none"
                 borderBottom="2px solid rgb(175, 175, 175)"
                 borderRadius="none"
@@ -102,6 +107,7 @@ const SignIn = ({ setState }) => {
               fontSize="2.2rem"
               borderTopRadius="0"
               borderBottomRadius="1rem"
+              disabled={loading}
             >
               Sign In
             </Button>

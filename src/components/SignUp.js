@@ -4,7 +4,7 @@ import { BiUserCircle } from "react-icons/bi";
 import { useForm } from "react-hook-form";
 import { auth, db } from "../firebase/firebase";
 import firebase from "firebase";
-import { navigate } from "@reach/router";
+import { useHistory } from "react-router-dom";
 
 import {
   FormErrorMessage,
@@ -13,12 +13,16 @@ import {
   Input,
   Button,
 } from "@chakra-ui/react";
+import { useState } from "react";
+import Error from "./Error";
 
 const SignUp = ({ setState }) => {
   const { handleSubmit, errors, register, formState } = useForm();
+  const [loading, setLoading] = useState(false);
+  let history = useHistory();
 
   const onSubmit = (data) => {
-    console.log(data);
+    setLoading(true);
     auth
       .createUserWithEmailAndPassword(data.email, data.password)
       .then((userCredential) => {
@@ -32,13 +36,14 @@ const SignUp = ({ setState }) => {
           email: data.email,
           password: data.password,
           isAdmin: false,
+          uid: userCredential.user.uid,
         });
-        navigate("/");
+        setLoading(false);
+        history.push("/");
       })
       .catch((error) => {
-        const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+        return <Error>{errorMessage}</Error>;
       });
   };
 
@@ -98,6 +103,7 @@ const SignUp = ({ setState }) => {
 
               <Input
                 name="password"
+                type="password"
                 ref={register({ required: true })}
                 mt="1rem"
                 border="none"
@@ -120,7 +126,7 @@ const SignUp = ({ setState }) => {
                 _hover={{ cursor: "pointer" }}
                 onClick={() => setState("signin")}
               >
-                click to SignUp
+                click to Sign In
               </Text>
             </FormControl>
             <Button
@@ -133,6 +139,7 @@ const SignUp = ({ setState }) => {
               fontSize="2.2rem"
               borderTopRadius="0"
               borderBottomRadius="1rem"
+              disabled={loading}
             >
               Sign Up
             </Button>

@@ -1,8 +1,10 @@
 import { Box, Flex, createStandaloneToast, Link } from "@chakra-ui/react";
 import { Link as ReachLink } from "react-router-dom";
 import { auth } from "../firebase/firebase";
+import React from "react";
+import Hamburger from "./Hamburger";
 
-const HomeNavbar = ({ currentUser }) => {
+const HomeNavbar = ({ currentUser, authenticate }) => {
   const toast = createStandaloneToast();
 
   const logOut = () => {
@@ -36,12 +38,11 @@ const HomeNavbar = ({ currentUser }) => {
       as="nav"
       height={["10vh", "15vh"]}
       backgroundColor="secondary"
-      p={["2rem 5rem", "2rem 5rem", "2rem", "4rem 15.7rem"]}
+      p={["2rem 5rem", "2rem 5rem", "5rem 10rem", "4rem 15.7rem"]}
       align="flex-end"
       boxShadow="md"
       alignItems="center"
       justifyContent="space-between"
-      display={["none", "none", "none", "flex"]}
     >
       <Box>
         <Link
@@ -50,13 +51,12 @@ const HomeNavbar = ({ currentUser }) => {
           fontWeight="500"
           color="tertiary"
           fontSize="3rem"
-          display={["none", "none", "flex"]}
         >
           Home
         </Link>
       </Box>
       <Flex
-        display={["flex"]}
+        display={["none", "none", "none", "flex"]}
         width="40%"
         color="tertiary"
         justifyContent="flex-end"
@@ -71,7 +71,7 @@ const HomeNavbar = ({ currentUser }) => {
           Lecturers
         </Link>
 
-        {currentUser ? (
+        {currentUser || authenticate ? (
           <Box
             _hover={{ cursor: "pointer" }}
             marginRight="4rem"
@@ -116,6 +116,9 @@ const HomeNavbar = ({ currentUser }) => {
           </Link>
         )}
       </Flex>
+      <Box display={["flex", "flex", "flex", "none"]}>
+        <Hamburger authenticate={authenticate} currentUser={currentUser} />
+      </Box>
     </Flex>
   );
 };
