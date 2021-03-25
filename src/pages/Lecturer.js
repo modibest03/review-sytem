@@ -1,8 +1,6 @@
 import {
   Box,
-  Button,
   Flex,
-  Textarea,
   createStandaloneToast,
   Icon,
   useDisclosure,
@@ -11,7 +9,6 @@ import { Modal, ModalOverlay, ModalContent, ModalBody } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import LecturerHead from "../components/LecturerHead";
 import StudentReview from "../components/StudentReview";
-import ReactStars from "react-rating-stars-component";
 import { db } from "../firebase/firebase";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
@@ -20,6 +17,9 @@ import { useQueryClient } from "react-query";
 import Loader from "../components/Loader";
 import { AiTwotoneMessage } from "react-icons/ai";
 import Error from "../components/Error";
+import * as api from "../api/api";
+import LecturerFormMobile from "../components/LecturerFormMobile";
+import LecturerFormDesktop from "../components/LecturerFormDesktop";
 
 const Lecturer = () => {
   const [star, setStar] = useState(0);
@@ -35,17 +35,6 @@ const Lecturer = () => {
   const queryClient = useQueryClient();
   const auth = queryClient.getQueryData("authenticate");
   const { isOpen, onOpen, onClose } = useDisclosure();
-
-  const fetchLecturer = async (id) => {
-    try {
-      const lecturers = db.collection("lecturers").doc(id);
-      const snapshot = await lecturers.get();
-      const res = snapshot.data();
-      return res;
-    } catch (err) {
-      return err;
-    }
-  };
 
   useEffect(() => {
     setReviewIsLoading(true);
@@ -73,14 +62,15 @@ const Lecturer = () => {
       console.log(error);
     }
   }, [lecturerid]);
-  console.log(reviews);
 
   const {
     isLoading: lecturerIsLoading,
     isError: lecturerIsError,
     error: lecturerError,
     data: lecturerData,
-  } = useQuery(["lecturerReview", lecturerid], () => fetchLecturer(lecturerid));
+  } = useQuery(["lecturerReview", lecturerid], () =>
+    api.fetchLecturer(lecturerid)
+  );
 
   const ratingChanged = (newRating) => {
     setStar(newRating);
@@ -137,14 +127,14 @@ const Lecturer = () => {
         })
         .catch((e) => console.log(e));
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   };
 
   useEffect(() => {
     if (reviews) {
-      setReveiwsId(reviews.map((rev) => rev.lecturer.authUid));
-      setReviewStars(reviews.map((rev) => rev.lecturer.star));
+      setReveiwsId(reviews.map((rev) => rev?.lecturer?.authUid));
+      setReviewStars(reviews.map((rev) => rev?.lecturer?.star));
     }
   }, [reviews]);
 
@@ -159,11 +149,16 @@ const Lecturer = () => {
     }
   }, [reviewStars, reviews]);
 
-  console.log(reviews[0]?.lecturer.star);
-  console.log(reviews.length);
-  console.log(reviews.length * 5);
-  console.log(reviewStars.reduce((a, b) => a + b, 0));
-  console.log(averageReview);
+  useEffect(() => {
+    if (averageReview) {
+      if (averageReview !== lecturerData?.star) {
+        const lecturers = db.collection("lecturers").doc(lecturerid);
+        return lecturers.update({
+          star: averageReview,
+        });
+      }
+    }
+  });
 
   return (
     <Box background="grey.20" h="100vh" overflow="hidden">
@@ -218,48 +213,14 @@ const Lecturer = () => {
               borderTopRightRadius="2rem"
             >
               <ModalBody>
-                <Flex
-                  flexDir="column"
-                  ml={["none", "3rem"]}
-                  backgroundColor="secondary"
-                  p="0 2rem 2rem 2rem"
-                >
-                  <Box alignSelf="center">
-                    <ReactStars
-                      onChange={ratingChanged}
-                      count={5}
-                      size={44}
-                      value={star}
-                      edit={true}
-                    />
-                  </Box>
-                  <Box flexGrow="1">
-                    <Box height="25rem">
-                      <Textarea
-                        placeholder="Write Your Review"
-                        flexGrow="1"
-                        isRequired
-                        size="lg"
-                        fontSize="2rem"
-                        h="100%"
-                        onChange={(e) => setReview(e.target.value)}
-                        value={review}
-                      />
-                    </Box>
-                    <Button
-                      mt="3rem"
-                      background="tertiary"
-                      p="4rem"
-                      fontSize="3rem"
-                      w="100%"
-                      color="secondary"
-                      isDisabled={loading}
-                      onClick={handleSubmit}
-                    >
-                      SEND
-                    </Button>
-                  </Box>
-                </Flex>
+                <LecturerFormMobile
+                  ratingChanged={ratingChanged}
+                  star={star}
+                  setReview={setReview}
+                  review={review}
+                  loading={loading}
+                  handleSubmit={handleSubmit}
+                />
               </ModalBody>
             </ModalContent>
           </Modal>
@@ -277,59 +238,16 @@ const Lecturer = () => {
                 />
               ))}
             </div>
-            <Flex
-              flexDir="column"
-              ml={["none", "3rem"]}
-              backgroundColor="secondary"
-              flexBasis="30%"
-              p="2rem"
-              display={[
-                "none",
-                "none",
-                "none",
-                auth && reveiwsId.includes(auth?.uid)
-                  ? "none"
-                  : auth
-                  ? "flex"
-                  : "none",
-              ]}
-            >
-              <Box alignSelf="center">
-                <ReactStars
-                  onChange={ratingChanged}
-                  count={5}
-                  size={44}
-                  value={star}
-                  edit={true}
-                />
-              </Box>
-              <Box flexGrow="1">
-                <Box height="25rem">
-                  <Textarea
-                    placeholder="Write Your Review"
-                    flexGrow="1"
-                    isRequired
-                    size="lg"
-                    fontSize="2rem"
-                    h="100%"
-                    onChange={(e) => setReview(e.target.value)}
-                    value={review}
-                  />
-                </Box>
-                <Button
-                  mt="1rem"
-                  background="tertiary"
-                  p="2rem"
-                  fontSize="1.5rem"
-                  w="100%"
-                  color="secondary"
-                  isDisabled={loading}
-                  onClick={handleSubmit}
-                >
-                  SEND
-                </Button>
-              </Box>
-            </Flex>
+            <LecturerFormDesktop
+              ratingChanged={ratingChanged}
+              star={star}
+              setReview={setReview}
+              review={review}
+              loading={loading}
+              handleSubmit={handleSubmit}
+              auth={auth}
+              reveiwsId={reveiwsId}
+            />
           </Flex>
         </>
       )}

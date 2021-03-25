@@ -4,7 +4,6 @@ import ReactStars from "react-rating-stars-component";
 const HomeCard = ({ review, lecturer }) => {
   return (
     <Box
-      width={["45rem", "60rem", "45rem"]}
       flexBasis={["100%", "100%", "100%", "30%"]}
       backgroundColor="secondary"
       p={["3rem", "3rem", "4rem", "2rem"]}
@@ -18,7 +17,7 @@ const HomeCard = ({ review, lecturer }) => {
         textAlign="center"
         mb="3rem"
       >
-        {review?.slice(0, 200)}
+        {review.slice(0, 200)}
       </Text>
       <Flex alignItems="center">
         <Avatar
@@ -29,20 +28,20 @@ const HomeCard = ({ review, lecturer }) => {
           border="2px solid #359EF7"
         />
         <Box>
-          <ReactStars count={5} size={24} value={lecturer?.star} edit={false} />
+          <ReactStars count={5} size={24} value={lecturer.star} edit={false} />
           <Text
             color="tertiary"
             fontSize={["1.4rem", "1.4rem", "2.5rem", "1.4rem"]}
             fontWeight="500"
           >
-            {lecturer?.name}
+            {lecturer.name}
           </Text>
           <Text
             color="tertiary"
             fontSize={["1.2rem", "1.2rem", "1.8rem", "1.2rem"]}
             fontWeight="500"
           >
-            {lecturer?.department}
+            {lecturer.department}
           </Text>
         </Box>
       </Flex>

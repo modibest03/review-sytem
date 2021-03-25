@@ -6,7 +6,6 @@ import ReactStars from "react-rating-stars-component";
 import { BsBoxArrowRight } from "react-icons/bs";
 
 const LecturerHead = ({ department, name, imageUrl, star }) => {
-  console.log(star);
   return (
     <Box background="tertiary" h="17rem" position="relative">
       <Box
