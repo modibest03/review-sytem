@@ -3,7 +3,9 @@ import ReactStars from "react-rating-stars-component";
 
 const HomeCard = ({ review, lecturer }) => {
   return (
-    <Box
+    <Flex
+      flexDir="column"
+      justifyContent="space-between"
       flexBasis={["100%", "100%", "100%", "30%"]}
       backgroundColor="secondary"
       p={["3rem", "3rem", "4rem", "2rem"]}
@@ -45,7 +47,7 @@ const HomeCard = ({ review, lecturer }) => {
           </Text>
         </Box>
       </Flex>
-    </Box>
+    </Flex>
   );
 };
 

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Flex } from "@chakra-ui/react";
 import SignIn from "../components/SignIn";
-import images from "../assets/image5.jpg";
 import SignUp from "../components/SignUp";
 
 const UserInfo = () => {
