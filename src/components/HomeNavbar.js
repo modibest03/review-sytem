@@ -36,7 +36,7 @@ const HomeNavbar = ({ currentUser, authenticate }) => {
   return (
     <Flex
       as="nav"
-      height={["10vh", "15vh"]}
+      height={["10vh", "10vh"]}
       backgroundColor="secondary"
       p={["2rem 5rem", "2rem 5rem", "5rem 10rem", "4rem 15.7rem"]}
       align="flex-end"

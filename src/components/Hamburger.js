@@ -85,7 +85,6 @@ const Hamburger = ({ currentUser, authenticate }) => {
                 <Link
                   fontSize="4rem"
                   color="#359EF7"
-                  marginRight="4rem"
                   to="/lecturers"
                   as={ReachLink}
                 >
@@ -95,7 +94,7 @@ const Hamburger = ({ currentUser, authenticate }) => {
                 {currentUser || authenticate ? (
                   <Box
                     _hover={{ cursor: "pointer" }}
-                    marginRight="4rem"
+                    marginTop="4rem"
                     style={{ fontSize: "4rem", color: "#359EF7" }}
                     onClick={logOut}
                   >
@@ -107,7 +106,7 @@ const Hamburger = ({ currentUser, authenticate }) => {
                     as={ReachLink}
                     fontSize="4rem"
                     color="#359EF7"
-                    marginRight="4rem"
+                    marginTop="4rem"
                   >
                     Signin
                   </Link>
@@ -116,9 +115,9 @@ const Hamburger = ({ currentUser, authenticate }) => {
                 {currentUser?.isAdmin && (
                   <Link
                     to="/admin"
-                    fontSize="5rem"
+                    fontSize="4rem"
                     color="#359EF7"
-                    marginRight="4rem"
+                    marginTop="4rem"
                     as={ReachLink}
                   >
                     Admin
@@ -128,9 +127,9 @@ const Hamburger = ({ currentUser, authenticate }) => {
                 {currentUser?.isAdmin && (
                   <Link
                     to="/createLecturer"
-                    fontSize="2rem"
+                    fontSize="4rem"
                     color="#359EF7"
-                    marginRight="4rem"
+                    marginTop="4rem"
                     as={ReachLink}
                   >
                     CreateLecturer

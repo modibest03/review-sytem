@@ -60,6 +60,7 @@ function App() {
         <Lecturers />
       </Route>
       <Route path="/signin">
+        <HomeNavbar />
         <UserInfo />
       </Route>
       <Route path="/admin">

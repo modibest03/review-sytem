@@ -9,17 +9,11 @@ const UserInfo = () => {
 
   return (
     <Flex
-      backgroundImage={[
-        "none",
-        "none",
-        "none",
-        `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),url(${images})`,
-      ]}
       height="100vh"
       backgroundSize="cover"
       backgroundPosition="center"
       justifyContent="center"
-      alignItems="center"
+      mt="8rem"
     >
       {state === "signup" ? (
         <SignUp setState={setState} />
