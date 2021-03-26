@@ -65,7 +65,6 @@ const Home = () => {
         loading ? (
           <Flex
             justifyContent="space-between"
-            alignItems="center"
             flexDir={["column", "column", "column", "row"]}
             flexWrap="wrap"
           >
