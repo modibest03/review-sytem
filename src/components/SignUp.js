@@ -14,7 +14,6 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import Error from "./Error";
 
 const SignUp = ({ setState }) => {
   const { handleSubmit, errors, register, formState } = useForm();
@@ -43,7 +42,8 @@ const SignUp = ({ setState }) => {
       })
       .catch((error) => {
         const errorMessage = error.message;
-        return <Error>{errorMessage}</Error>;
+        alert(errorMessage);
+        setLoading(false);
       });
   };
 

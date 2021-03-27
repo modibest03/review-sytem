@@ -21,7 +21,7 @@ const Lecturers = () => {
 
   return (
     <Box>
-      <Flex p="2rem" flexWrap="wrap" justifyContent="space-between">
+      <Flex p="2rem" flexWrap="wrap">
         {data.map(({ id, lecturer }) => (
           <LecturersCard
             key={id}

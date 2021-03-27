@@ -14,7 +14,7 @@ const LecturersCard = ({ id, department, imageUrl, name, star }) => {
       borderRadius="1rem"
       mt="3rem"
       position="relative"
-      mr="1rem"
+      mr={["none", "none", "none", "4.9rem"]}
       as={RouterLink}
       to={`/lecturer/${id}/reviews`}
     >
