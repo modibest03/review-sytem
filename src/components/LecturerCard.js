@@ -29,7 +29,7 @@ const LecturerCard = ({ name, department, imageUrl, rating, id }) => {
       borderRadius="1rem"
       mt="1rem"
       position="relative"
-      mr={["none", "none", "none", "5rem"]}
+      mr="1rem"
     >
       <Flex alignItems="center">
         <Avatar
